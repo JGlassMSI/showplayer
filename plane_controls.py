@@ -3,6 +3,7 @@
 import logging
 import serial
 import serial.tools.list_ports
+from serial.serialutil import SerialException
 from relayUtils import *
 from time import sleep
 from abc import ABC, abstractmethod
@@ -175,8 +176,8 @@ class SerialPlaneController(controller):
 				try:
 					self.ser.open()
 					logging.info(f"Opened com port {self.ser.port}")
-				except serial.SerialException as e:
-					logging.warning("Could not open serial output port\n", e)
+				except SerialException as e:
+					logging.warning(f"Could not open serial output port. Error was:\n\t{e}" )
 					self.ser.port = None
 			elif len(ports) > 0:
 				#TODO: Dialogue to choose which Comm port to open if there are multiple ports
