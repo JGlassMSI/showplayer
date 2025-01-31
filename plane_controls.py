@@ -177,6 +177,7 @@ class SerialPlaneController(controller):
 					logging.info(f"Opened com port {self.ser.port}")
 				except serial.SerialException as e:
 					logging.warning("Could not open serial output port\n", e)
+					self.ser.port = None
 			elif len(ports) > 0:
 				#TODO: Dialogue to choose which Comm port to open if there are multiple ports
 				self.ser.port=ports[0].device
@@ -184,7 +185,7 @@ class SerialPlaneController(controller):
 				logging.info(f"Opened com port {self.ser.port}")
 			else: 
 				logging.warning("Found no serial ports to open")
-				self.ser==None
+				self.ser = None
 		logging.debug(f"Full serial info for serial output device: {self.ser}")
 
 		self.commands = {
