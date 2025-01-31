@@ -4,7 +4,6 @@ import logging
 import serial
 import serial.tools.list_ports
 from serial.serialutil import SerialException
-from relayUtils import *
 from time import sleep
 from abc import ABC, abstractmethod
 from functools import partial
