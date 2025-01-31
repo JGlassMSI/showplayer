@@ -122,10 +122,10 @@ class relayBoard():
 
     def openDevById(self, idstr):
         logging.log(self.loglevel, "Trying to open device with id: " + idstr)   
-        self.device = self.DLL.usb_relay_device_open_with_serial_number(stringToCharp(idstr), 5)
+        if self.DLL: self.device = self.DLL.usb_relay_device_open_with_serial_number(stringToCharp(idstr), 5)
         if not self.device: fail("Cannot open device with id: " + idstr)
 
-        self.numRelays = self.DLL.usb_relay_device_get_num_relays(self.device)
+        if self.DLL: self.numRelays = self.DLL.usb_relay_device_get_num_relays(self.device)
         if self.numRelays <= 0 or self.numRelays > 8: fail("Too many or too few channels, should be 1-8, but is:" + str(self. numRelays))
         
         self.blinkAlive = True #set to false to kill 
@@ -141,29 +141,29 @@ class relayBoard():
 
     def enumDevs(self):
       devids = []
-      enuminfo = self.DLL.usb_relay_device_enumerate()
+      if self.DLL: enuminfo = self.DLL.usb_relay_device_enumerate()
       while enuminfo :
-        idstrp = self.DLL.usb_relay_device_get_id_string(enuminfo)
+        if self.DLL: idstrp = self.DLL.usb_relay_device_get_id_string(enuminfo)
         idstr = charpToString(idstrp)
         logging.info("Found ID string: " + idstr)
         assert len(idstr) == 5
         if not idstr in devids : devids.append(idstr)
         else : logging.warning("Warning! found duplicate ID=" + idstr)
-        enuminfo = self.DLL.usb_relay_device_next_dev(enuminfo)
+        if self.DLL: enuminfo = self.DLL.usb_relay_device_next_dev(enuminfo)
 
       logging.info("Found devices: %d" % len(devids))
       return devids
 
     def closeDev(self):
-        self.DLL.usb_relay_device_close(self.device)
+        if self.DLL:  self.DLL.usb_relay_device_close(self.device)
         self.device = None
         self.blinkAlive = False
         time.sleep(2)
         logging.info("Device Closed")
 
     def unloadLib(self):
-        if self.device: closeDev()
-        self.DLL.usb_relay_exit()
+        if self.device: self.closeDev()
+        if self.DLL: self.DLL.usb_relay_exit()
         self.DLL = None
         logging.info("Lib closed")
 
@@ -174,13 +174,13 @@ class relayBoard():
         self.openDevById(ids[0])
 
     def _open(self, num):
-        retVal = self.DLL.usb_relay_device_close_one_relay_channel(self.device, num)
+        if self.DLL: retVal = self.DLL.usb_relay_device_close_one_relay_channel(self.device, num)
         if retVal != 0:
          fail("Faied to close relay channel " + num)
         else: return 0
 
     def _close(self, num):
-        retVal = self.DLL.usb_relay_device_open_one_relay_channel(self.device, num)
+        if self.DLL: retVal = self.DLL.usb_relay_device_open_one_relay_channel(self.device, num)
         if retVal != 0:
          fail("Faied to close relay channel " + num)
         else: return 0
