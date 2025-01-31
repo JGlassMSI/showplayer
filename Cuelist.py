@@ -5,7 +5,6 @@ from waiting import wait, TimeoutExpired
 from functools import partial
 from enum import Enum
 import threading
-import inspect
 
 #Number of seconds to wait between steps in manual control (ms)
 MANUAL_CONTROL_WAIT_TIME_MS = 120000
@@ -372,6 +371,6 @@ if __name__=='__main__':
     CL.cues.append(Delay_Item("Delay again", 3000))
     CL.cues.append(Label_Item("Last Cue", "Cue 7"))
 
-    CL.runShow()
+    CL.runShow(master=None)
 
     #sleep(10)

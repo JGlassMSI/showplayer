@@ -3,10 +3,10 @@ from datetime import date
 
 for f in [fl for fl in listdir("./logs") if "debug" in fl]:
     if "-" in f:
-        date = f.split(".")[-1]
+        d = f.split(".")[-1]
     else:
-        date = date.today()
-    print(f"\n ===={date}====")
+        d = date.today()
+    print(f"\n ===={d}====")
     showRuns = 0
     sawTrigger = False
     

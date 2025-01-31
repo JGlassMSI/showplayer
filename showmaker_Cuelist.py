@@ -7,7 +7,6 @@ import tkinter.ttk as ttk
 from plane_controls import *
 from sys import exit
 from functools import partial
-import json
 import pickle
 from Cuelist import *
 from CueBox import *

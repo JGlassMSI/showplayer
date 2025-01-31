@@ -2,7 +2,6 @@ import logging
 from abc import ABC, abstractmethod
 import serial
 import serial.tools.list_ports
-from threading import Timer
 from TimerClass import *
 from time import sleep
 import re

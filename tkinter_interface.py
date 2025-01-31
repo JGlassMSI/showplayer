@@ -33,8 +33,3 @@ if __name__ == '__main__':
 
 	root = tk.Tk()
 	app = Application(master=root)
-
-	pc = controller()
-	pc.sendCommand('tinkerbell','cancel')
-
-	app.mainloop()

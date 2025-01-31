@@ -149,7 +149,7 @@ class ConfigApplication(tk.Toplevel):
         self.button_showinfo.pack()
 
     def createConfigWindow(self):
-        self.cw = configWindow()
+        self.cw = ConfigWindow()
         self.cw.stateVar.trace_add("write", self.setLabelText)
 
     def setLabelText(self, *args):
@@ -162,6 +162,6 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
     root = tk.Toplevel()    
 
-    app = Application(root)
+    app = ConfigApplication(root)
 
     root.mainloop()

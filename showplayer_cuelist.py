@@ -18,8 +18,8 @@ from inputs import *
 from TimerClass import *
 from autoDialog import *
 
-from time import sleep
-from datetime import datetime, time, timedelta
+from datetime import datetime, timedelta
+from datetime import time as dttime
 import ntpath
 import sys
 from os import path
@@ -638,9 +638,9 @@ class showplayer(tk.Frame):
         self.dayFrames = {}
         self.dayVars = {}
         self.todayEvery = timedelta()
-        self.todayStartTime = time()
-        self.todayEndTime = time()
-        self.nextShowTime = time()
+        self.todayStartTime = dttime()
+        self.todayEndTime = dttime()
+        self.nextShowTime = dttime()
         self.defaultStartVar = tk.IntVar(self.master)
         self.defaultEndVar = tk.IntVar(self.master)
         self.showErrors = True
