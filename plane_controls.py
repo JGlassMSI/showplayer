@@ -11,7 +11,9 @@ import socket
 
 import inspect
 
-class controller(ABC):
+from relayUtils import relayBoard
+
+class Controller(ABC):
 	"""A base controller class with no practical methods; should be overridden by your own class"""
 	def __init__(self):
 		super().__init__()
@@ -39,7 +41,7 @@ class controller(ABC):
 		"""
 		pass
 
-class SerialPlaneController(controller):
+class SerialPlaneController(Controller):
 
 	#The keys are the original memory address of the command in the DOS program
 	#The values are the serial values to output, and should be terminated with an 'Od' character
@@ -224,10 +226,13 @@ class SerialPlaneController(controller):
 		}
 
 	def close(self):
-		self.ser.close()
+		if self.ser: self.ser.close()
 
 	def getPort(self):
-		return str(self.ser.port)
+		if self.ser:
+			return str(self.ser.port)
+		else:
+			return "Serial port does not exist"
 
 	def sendCommand(self, command, state):
 		logging.info("Preparing to send command " + str(command) + ":"+str(state))
@@ -235,9 +240,9 @@ class SerialPlaneController(controller):
 			raise ValueError('No command identified by string ' + str(command))
 		elif state not in ['activate','cancel']:
 			raise ValueError("State must be either activate or cancel for all commands; was given " + str(state))
-		elif self.ser == None:
+		elif not self.ser:
 			raise OSError("No serial port could be found on this computer")
-		elif not self.ser.isOpen():
+		elif self.ser.is_open:
 			raise OSError(f"Serial port {str(self.ser)} is not open")
 		else:
 			self.commands[command][state]()
@@ -247,12 +252,12 @@ class SerialPlaneController(controller):
 
 	def sendDOSCommand(self, dosCommand):
 		c = SerialPlaneController.serialTable[dosCommand]
-		if self.ser.is_open:
+		if self.ser and self.ser.is_open:
 			try:
 				self.ser.write((c + '\r').encode())
 				#self.ser.write((c).encode())
 				logging.info(f"Sent command with DOS label {dosCommand} and data {c}")	
-			except serial.serialutil.SerialException as e:
+			except SerialException as e:
 				raise(e)
 		else:
 			curframe = inspect.currentframe()
@@ -263,13 +268,13 @@ class SerialPlaneController(controller):
 
 	def sendRawCommand(self, command):
 		logging.debug(f"Preparing to send raw command with string {command}")
-		if self.ser.is_open:
+		if self.ser and self.ser.is_open:
 			try:
 				self.ser.write((command + '\r').encode())
 				#self.ser.write((command + '\r').encode())
 				logging.debug(f"Raw command sent with data {command}")
-			except serial.serialutil.SerialExeption as err:
-				raise(f"Error sending raw command: {err}")
+			except SerialException as err:
+				raise ValueError(f"Error sending raw command: {err}")
 		else:
 			logging.debug("Serial port not open")
 
@@ -290,7 +295,7 @@ class SerialPlaneController(controller):
 			self.sendDOSCommand(i)
 			sleep(.1)
 
-class RelayLightingController(controller):
+class RelayLightingController(Controller):
 
 	def __init__(self):
 
@@ -329,7 +334,7 @@ class RelayLightingController(controller):
 		else:
 			return self.commands[command][state]
 
-class NetworkLightingController(controller):
+class NetworkLightingController(Controller):
 
 	#A copy/pase of the CueScript strings stored in the Cueserver
 	buttonStringsFromCS = [
