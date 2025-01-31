@@ -4,11 +4,11 @@ This repo contains the Showplayer and Showmaker programs which drive the 727 at 
 
 ## Installation
 
-These programs currently run on Python 3.8.
+These programs currently run on Python 3.8 through 3.12
 
- 1. Install Python 3.8
+ 1. Install a compatible python version
  2. Clone this repo to the hard drive
- 3. `python38 -m venv venv`
+ 3. `python -m venv venv`
  4. 
     - Linux: `source ./venv/bin/activate`
     - Windows: TBD
