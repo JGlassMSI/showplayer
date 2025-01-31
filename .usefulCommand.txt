@@ -1,0 +1,5 @@
+Rebuild all documentation (run in /docs)
+sphinx-apidoc --force -o ./source ..
+
+Make html from documentation (run in /docs)
+make html -c ./source
