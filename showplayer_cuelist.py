@@ -22,7 +22,7 @@ from datetime import datetime, timedelta
 from datetime import time as dttime
 import ntpath
 import sys
-from os import path
+from os import path, makedirs
 import logging
 import logging.handlers
 import atexit
@@ -1348,6 +1348,8 @@ def setupLogging():
     #stream_handler.setLevel(logging.DEBUG)
     stream_handler.setLevel(logging.INFO)
     stream_handler.setFormatter(formatter)
+
+    if not path.exists("./logs"): makedirs("./logs")
 
     debugLogFilePath = "./logs/showplayer_cuelist_debug.log"
     debug_file_handler = logging.handlers.TimedRotatingFileHandler(filename=debugLogFilePath, when='midnight', backupCount=30)
