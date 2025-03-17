@@ -17,9 +17,9 @@ These programs currently run on Python 3.8 through 3.12
 
  ## Running
 
- To run Showplayer (with venv active): `python showplayer_cuelist.py`
+ To run Showplayer (with venv active): `python -m controller showplayer`
 
- To run Showmaker (with venv active): `python showmaker_cuelist.py`
+ To run Showmaker (with venv active): `python -m controller showmaker`
 
  ## Installing
 
