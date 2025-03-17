@@ -21,6 +21,7 @@ from autoDialog import *
 from datetime import datetime, timedelta
 from datetime import time as dttime
 import ntpath
+from pathlib import Path
 import sys
 from os import path, makedirs
 import logging
@@ -303,7 +304,7 @@ class showplayer(tk.Frame):
         with open(f, mode="rb") as infile:
             try:
                 newShow = pickle.load(infile)
-                newShow.name = ntpath.basename(f.split('.')[0])
+                newShow.name = Path(f).stem
                 logging.debug(f"Loaded new show: {newShow}")
                 for cue in newShow.cues:
                     if cue.action != None:
@@ -345,7 +346,6 @@ class showplayer(tk.Frame):
                 msg = mb.showerror("Unable to load file",
                     "Unable to load the specified file - please check the format and try again")
             else:
-                errname = ntpath.basename(f.split('.')[0])
                 self.showList.append(newShow)
                 self.updateShowListDisplays()
                 #self.updateShowStepDisplay()
