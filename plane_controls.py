@@ -242,7 +242,7 @@ class SerialPlaneController(Controller):
 			raise ValueError("State must be either activate or cancel for all commands; was given " + str(state))
 		elif not self.ser:
 			raise OSError("No serial port could be found on this computer")
-		elif self.ser.is_open:
+		elif not self.ser.is_open:
 			raise OSError(f"Serial port {str(self.ser)} is not open")
 		else:
 			self.commands[command][state]()
