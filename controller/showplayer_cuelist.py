@@ -293,6 +293,14 @@ class showplayer(tk.Frame):
             #We want to make sure we iterate over all the inputs, so all their flags are cleared
             result = result or i.retrieveTriggerFlag()
         return result
+    
+    #Accounts for changes to package structure:
+    class PickleFixer(pickle.Unpickler):
+        def find_class(self, module, name):
+            print(f"{module=} {name=}")
+            if module == "Cuelist":
+                return getattr(sys.modules['controller.Cuelist'], name)
+            return super().find_class(module, name)
 
     def importShow(self, fileGiven = None):
         if fileGiven == None: f = filedialog.askopenfilename(filetypes=[("727 Shows",'*.727show'),('All Files','*')])
@@ -302,7 +310,7 @@ class showplayer(tk.Frame):
 
         with open(f, mode="rb") as infile:
             try:
-                newShow = pickle.load(infile)
+                newShow = self.PickleFixer(infile).load()
                 newShow.name = ntpath.basename(f.split('.')[0])
                 logging.debug(f"Loaded new show: {newShow}")
                 for cue in newShow.cues:
