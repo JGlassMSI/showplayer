@@ -23,21 +23,13 @@ These programs currently run on Python 3.8 through 3.12
 
  ## Installing
 
-Setting up on a new computer:
-
-Install Git
-Install Python (3.12)
-git clone https://github.com/jglassmsi/showplayer
-
-python -m venv venv
-
-(activate venv):
- - Windows: ./venv/scripts/activate.bat or ./venv/scripts/activate.ps1
- - Nix: source ./venv/bin/activate
-
-python -m pip install -r requirements.txt
-
-Install drivers for Serial Dongle
-
-Run:
-python showplayer.py
+ 1. Install Git (https://git-scm.com/downloads)
+ 2. Install Python (Tested up to version 3.11) (https://www.python.org/downloads/)
+ 3. From a command line, run `git clone https://github.com/jglassmsi/showplayer`
+ 4. From a command line, run `python -m venv venv`
+ 5. Activate the new virtual environment:
+   - Windows: ./venv/scripts/activate.bat or ./venv/scripts/activate.ps1
+   - Nix: source ./venv/bin/activate
+ 6. Run `python -m pip install -r requirements.txt`
+ 7. Install drivers for your USB/Serial dongle
+ 8. Run showplayer or showmaker as above.
