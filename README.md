@@ -21,4 +21,21 @@ These programs currently run on Python 3.8 through 3.12
 
  To run Showmaker (with venv active): `python showmaker_cuelist.py`
 
- 
+ ## Installing
+
+Setting up on a new computer:
+
+Install Git
+Install Python (3.12)
+git clone https://github.com/jglassmsi/showplayer
+
+python -m venv venv
+
+(activate venv):
+ - Windows: ./venv/scripts/activate.bat or ./venv/scripts/activate.ps1
+ - Nix: source ./venv/bin/activate
+
+python -m pip install -r requirements.txt
+
+Run:
+python showplayer.py
