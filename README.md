@@ -37,5 +37,7 @@ python -m venv venv
 
 python -m pip install -r requirements.txt
 
+Install drivers for Serial Dongle
+
 Run:
 python showplayer.py
