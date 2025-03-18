@@ -4,6 +4,7 @@ import logging
 from waiting import wait, TimeoutExpired
 from functools import partial
 from enum import Enum
+from pathlib import Path
 import threading
 
 #Number of seconds to wait between steps in manual control (ms)
@@ -65,6 +66,7 @@ class Cuelist():
         self.listeners = list()
         self.currentCueNum = -1
         self.timerList = list()
+        self.loaded_from: str | Path = ""
         
         self.playbackStatus = CuelistState.STOPPED
         

@@ -313,8 +313,9 @@ class showplayer(tk.Frame):
 
         with open(f, mode="rb") as infile:
             try:
-                newShow = self.PickleFixer(infile).load()
+                newShow: Cuelist = self.PickleFixer(infile).load()
                 newShow.name = ntpath.basename(f.split('.')[0])
+                newShow.loaded_from = Path(f)
                 logging.debug(f"Loaded new show: {newShow}")
                 for cue in newShow.cues:
                     if cue.action != None:
@@ -365,7 +366,7 @@ class showplayer(tk.Frame):
         #		-Schedule info day of week, including show, checkboxes, start and end times
         
         output = {}
-        output['showList'] = [c.name for c in self.showList]
+        output['showList'] = [str(c.loaded_from) for c in self.showList]
         output['defaultShow'] = self.defaultShowVar.get()
         output['runEvery'] = self.every_minstr.get()
         output['startCheck'] = self.defaultStartVar.get()
@@ -418,7 +419,7 @@ class showplayer(tk.Frame):
                 for s in inputDict['showList']:
                     if s != 'Empty Cuelist':
                         try:
-                            self.importShow(s+'.727show')
+                            self.importShow(s)
                         except FileNotFoundError as err:
                             logging.info(f"Issue loading file {s}, {err} skipping")
 
