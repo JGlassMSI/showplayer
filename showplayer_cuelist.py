@@ -4,7 +4,7 @@ import tkinter.ttk as ttk
 import tkinter.font as tkFont
 from tkinter import filedialog
 import tkextensions as tke
-from functools import partial, partialmethod
+from functools import partial
 
 import json
 import pickle
@@ -83,7 +83,7 @@ class showplayer(tk.Frame):
             for i in range(lb.size()-1, -1, -1):
                 lb.delete(i)
 
-    def getShowIndex(self, showName):
+    def getShowIndex(self, showName) -> int:
         logging.debug("Getting index in showList for " + showName)
         #return next((index for (index, d) in enumerate(self.showList) if d['name'] == showName), None)
         return [i for i, d in enumerate(self.showList) if d.name == showName][0]
@@ -287,14 +287,14 @@ class showplayer(tk.Frame):
                 self.nextShowTime = tempTime
                 self.nextLabel['text'] = f"The next show will be at {self.nextShowTime}"
     
-    def playerInputFunction(self):
+    def playerInputFunction(self) -> bool:
         result = False
         for i in self.inputs.values():
             #We want to make sure we iterate over all the inputs, so all their flags are cleared
             result = result or i.retrieveTriggerFlag()
         return result
 
-    def importShow(self, fileGiven = None):
+    def importShow(self, fileGiven = None) -> None:
         if fileGiven == None: f = filedialog.askopenfilename(filetypes=[("727 Shows",'*.727show'),('All Files','*')])
         else: f = fileGiven
         if f is None or f == '':
@@ -350,7 +350,7 @@ class showplayer(tk.Frame):
                 self.updateShowListDisplays()
                 #self.updateShowStepDisplay()
 
-    def deleteShow(self):
+    def deleteShow(self) -> None:
         selection = self.showManageList.curselection()
         if selection == ():
             return
@@ -404,7 +404,7 @@ class showplayer(tk.Frame):
             json.dump(output, outfile)
         self.updateConf('lastConfig', str(f))
 
-    def loadConfigDialog(self):
+    def loadConfigDialog(self) -> None:
         f = filedialog.askopenfilename(filetypes=[("727 Configurations",'*.727config'),('All Files','*')])
         if f is None or f == '':
             return

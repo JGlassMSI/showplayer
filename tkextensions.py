@@ -5,7 +5,7 @@
 try:
     import tkinter as tk
 except ImportError:
-    import Tkinter as tk
+    import Tkinter as tk #type: ignore
 
 class VerticalScrolledFrame:
     """
