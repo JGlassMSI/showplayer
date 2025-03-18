@@ -339,19 +339,6 @@ class showplayer(tk.Frame):
                             elif type(cue) == Delay_Or_Skip_Item:
                                 cue.action = partial(waitThenGo, self.playerInputFunction, cue.timeoutTime)
                                 logging.debug(f"Replaced WaitThenGo with new input function with args {cue.action.args}")
-
-                print(">>>>>>")
-                print(newShow.cues)
-
-
-                
-
-
-
-                """ inputDict = json.load(infile)
-                logging.debug(f"Loaded dictionary: {(str(inputDict))}")
-                stepList = inputDict['steps']
-                name = inputDict.get('name','Show:' + f.split('/')[-1]) """
             except ValueError as e:	
                 msg = mb.showerror("Unable to load file",
                     "Unable to load the specified file - please check the format and try again")
