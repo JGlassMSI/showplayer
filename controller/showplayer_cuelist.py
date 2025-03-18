@@ -20,6 +20,7 @@ from .autoDialog import *
 
 from datetime import datetime, timedelta
 from datetime import time as dttime
+import pathlib
 import ntpath
 import sys
 from os import path, makedirs
@@ -49,6 +50,8 @@ class showplayer(tk.Frame):
         self.runShowOnButtonInput = False
         self.showRunning = False
         self.inputStarter = TimerClass(self.checkForInputToStartShow, None, delay=.2)
+
+        self.confpath = (pathlib.Path.home() / "player.conf")
 
         self.grid()
         self.create_widgets()
@@ -386,8 +389,8 @@ class showplayer(tk.Frame):
         output['endMin'] = self.end_minstr.get()
         output['outputMode'] = self.outputModeVar.get()
 
-        output['outputPort'] = self.controller.ser.port
-        output['inputPort'] = self.inputs['serial'].ser.port
+        output['outputPort'] = self.controller.ser.port if self.controller.ser else -1
+        output['inputPort'] = self.inputs['serial'].ser.port if self.inputs['serial'].ser else -1
 
         output['runOnButton'] = self.runShowOnButtonInput
 
@@ -1299,8 +1302,8 @@ class showplayer(tk.Frame):
                 self.runShow(manual_trigger=True)
 
     def startup(self, root):
-        if path.exists("player.conf"):
-            with open("player.conf", "r") as infile:
+        if self.confpath.exists():
+            with open(self.confpath, "r") as infile:
                 try:
                     j = json.load(infile)
                     lastConfig = j['lastConfig']
@@ -1329,10 +1332,8 @@ class showplayer(tk.Frame):
         root.after(700, self.changeInputMonitoring)
 
     def updateConf(self, k, v):
-        with open ("player.conf", "w") as outfile:
-            
+        with open (self.confpath, "w") as outfile:
             self.conf[k] = v
-
             json.dump(self.conf, outfile)
 
     def forceStartInputStarter(self):
